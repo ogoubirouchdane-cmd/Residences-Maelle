@@ -433,31 +433,187 @@ footer { background: var(--blue-dark); color: rgba(255,255,255,0.65); padding: 7
 /* ================================================
    RESPONSIVE
    ================================================ */
+/* ------------------------------------------------
+   BREAKPOINT 1200px — pas de changement nécessaire
+   (la version originale est correcte)
+   ------------------------------------------------ */
 @media (max-width: 1200px) {
   .tarifs-grid  { grid-template-columns: repeat(2,1fr); }
   .why-grid     { grid-template-columns: repeat(2,1fr); }
   .footer-grid  { grid-template-columns: 1fr 1fr; }
 }
+
+/* ------------------------------------------------
+   BREAKPOINT 960px — tablettes
+   ------------------------------------------------ */
 @media (max-width: 960px) {
   .residences-grid { grid-template-columns: 1fr; }
   .contact-grid    { grid-template-columns: 1fr; }
   .contact-sidebar { order: -1; }
   .gallery-grid    { grid-template-columns: repeat(2,1fr); grid-auto-rows: 200px; }
   .gallery-item.gallery-big { grid-column: 1 / 3; height: 260px; }
+
+  /* CORRECTION : padding interne sidebar trop large sur tablette */
+  .contact-sidebar { padding: 28px 24px; }
+
+  /* CORRECTION : le bouton WA nav prend trop de place sur tablette,
+     on masque le texte et on garde uniquement l'icône */
+  .btn-wa-nav span { display: none; }
+  .btn-wa-nav { padding: 10px 12px; border-radius: 50%; }
+  .btn-wa-nav svg { width: 18px; height: 18px; }
 }
+
+/* ------------------------------------------------
+   BREAKPOINT 768px — mobile landscape / petites tablettes
+   ------------------------------------------------ */
 @media (max-width: 768px) {
-  section { padding: 72px 5%; }
-  .nav-links, .btn-wa-nav { display: none; }
+  /* Sections : padding vertical réduit, horizontal conservé */
+  section { padding: 60px 5%; }
+
+  /* Navbar : on masque les liens et le bouton WA du nav,
+     on affiche le hamburger */
+  .nav-links { display: none; }
+  .btn-wa-nav { display: none; } /* Le bouton WA nav complet est caché */
   .hamburger { display: flex; }
+
+  /* CORRECTION : le lang-toggle reste visible mais est réduit
+     pour ne pas déborder sur mobile */
+  .lang-toggle { flex-shrink: 0; }
+  .lang-btn { padding: 5px 9px; font-size: 0.72rem; }
+
+  /* CORRECTION : nav padding latéral réduit pour donner plus d'espace */
+  nav { padding: 0 4%; }
+
+  /* CORRECTION : la nav-logo-text est masquée sur mobile pour gagner de la place */
+  .nav-logo-text { display: none; }
+
+  /* Hero : on réduit le padding pour éviter le débordement vertical */
+  #hero { padding: calc(var(--nav-h) + 20px) 5% 60px; }
+
+  /* CORRECTION : les boutons hero passent en colonne dès 768px (pas qu'à 480px) */
+  .hero-btns {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  /* CORRECTION : les boutons hero prennent toute la largeur disponible sur mobile */
+  .btn-primary, .btn-outline {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  /* Grilles tarifaires et formulaire */
   .tarifs-grid  { grid-template-columns: 1fr; }
   .form-row     { grid-template-columns: 1fr; }
+
+  /* Footer */
   .footer-grid  { grid-template-columns: 1fr; gap: 30px; }
-  .avis-stats   { gap: 16px; }
-  .avis-stat    { padding: 16px 20px; min-width: 100px; }
+  footer { padding: 52px 5% 28px; }
+
+  /* CORRECTION : les stats avis prennent toute la largeur sur mobile */
+  .avis-stats { gap: 12px; }
+  .avis-stat  { padding: 16px 20px; min-width: 90px; flex: 1; }
+
+  /* CORRECTION : les flèches du carrousel sont trop grandes sur mobile,
+     elles empiètent sur les cards — on les réduit */
+  .avis-nav { width: 36px; height: 36px; font-size: 1.4rem; flex-shrink: 0; }
+
+  /* CORRECTION : padding des cards tarif réduit sur mobile */
+  .tarif-header { padding: 20px 18px 16px; }
+  .tarif-body   { padding: 18px; }
+
+  /* CORRECTION : padding interne body résidence réduit */
+  .residence-body { padding: 22px; }
+
+  /* CORRECTION : title hero trop grand entre 480-768px,
+     on force un clamp plus agressif */
+  .hero-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+
+  /* CORRECTION : section-title réduit pour ne pas déborder */
+  .section-title { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+
+  /* CORRECTION : note tarifaire dont le margin-top négatif cause
+     des chevauchements sur mobile */
+  .tarifs-note { margin-top: 0; margin-bottom: 32px; }
 }
+
+/* ------------------------------------------------
+   BREAKPOINT 480px — mobile portrait (téléphones)
+   ------------------------------------------------ */
 @media (max-width: 480px) {
-  .hero-btns { flex-direction: column; align-items: center; }
+  /* Section padding encore plus réduit */
+  section { padding: 50px 4%; }
+
+  /* CORRECTION : hero - on évite que le hero-scroll
+     empiète sur les boutons en réduisant le padding bas */
+  #hero { padding-bottom: 80px; }
+
+  /* Galerie : 1 colonne, hauteur réduite pour petits écrans */
   .why-grid  { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
-  .gallery-item.gallery-big { grid-column: auto; height: 220px; }
+  .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 180px; }
+  .gallery-item.gallery-big { grid-column: auto; height: 200px; }
+
+  /* CORRECTION : les tabs de galerie débordent sur petit écran,
+     on les rend scrollables horizontalement */
+  .gallery-tabs {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 4px;
+    /* scrollbar invisible mais fonctionnelle */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .gallery-tabs::-webkit-scrollbar { display: none; }
+  .gallery-tab { white-space: nowrap; flex-shrink: 0; }
+
+  /* CORRECTION : le footer-desc est trop large sur mobile,
+     on supprime le max-width pour qu'il utilise tout l'espace dispo */
+  .footer-desc { max-width: 100%; }
+
+  /* CORRECTION : les avis-stats passent en colonne sur très petit écran
+     pour éviter le chevauchement */
+  .avis-stats { flex-direction: column; align-items: center; }
+  .avis-stat  { width: 100%; max-width: 240px; }
+
+  /* CORRECTION : le carrousel avis — on masque les boutons nav
+     et on laisse défiler uniquement via les dots sur très petit écran */
+  .avis-nav { display: none; }
+  .avis-carousel-wrap { gap: 0; }
+
+  /* CORRECTION : les cards avis ont un padding trop grand sur mobile */
+  .avis-card { padding: 20px 18px; }
+
+  /* CORRECTION : le contact sidebar padding trop large */
+  .contact-sidebar { padding: 22px 18px; border-radius: 16px; }
+
+  /* CORRECTION : les amenity-tag peuvent déborder si trop nombreux,
+     on s'assure qu'ils restent lisibles */
+  .amenity-tag { font-size: 0.72rem; padding: 4px 10px; }
+
+  /* CORRECTION : le price-big dans les tarifs trop grand sur mobile */
+  .price-big { font-size: 1.65rem; }
+
+  /* CORRECTION : le btn-submit et btn-blue full-width sur mobile */
+  .btn-submit { font-size: 0.88rem; padding: 14px; }
+
+  /* CORRECTION : la WhatsApp flottante se repositionne pour
+     ne pas masquer les CTA en bas de page */
+  .wa-float { bottom: 18px; right: 16px; width: 52px; height: 52px; }
+  .wa-float svg { width: 26px; height: 26px; }
+
+  /* CORRECTION : le toast se repositionne en cohérence avec wa-float */
+  .toast { bottom: 86px; right: 16px; font-size: 0.82rem; padding: 12px 18px; }
+
+  /* CORRECTION : hero-eyebrow trop grand sur mobile */
+  .hero-eyebrow { font-size: 0.65rem; padding: 5px 14px; }
+
+  /* CORRECTION : section-header margin-bottom réduit sur mobile */
+  .section-header { margin-bottom: 36px; }
+
+  /* CORRECTION : form-group input/select/textarea — zoom iOS évité
+     grâce à font-size >= 16px */
+  .form-group input,
+  .form-group select,
+  .form-group textarea { font-size: 1rem; }
 }
